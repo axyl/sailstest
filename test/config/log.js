@@ -21,7 +21,9 @@ module.exports = {
   // 'verbose': Display calls from `.error()`, `.warn()`, `.debug()`, `.info()` to `.verbose()`
   //
   log: {
-    level: 'info'
+    level: 'info',
+	maxSize: 1000,
+	filePath: 'e:\source\sjc\sailstest\test\logging.log'
   }
 
 };

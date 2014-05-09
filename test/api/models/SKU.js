@@ -12,9 +12,17 @@ module.exports = {
 			type: 'string',
 			required: true
 		},
-		items:'INTEGER',
-		category:{
-			model:'category'
+		items: {
+			type: 'INTEGER',
+			required: true
+		},
+		category:{		// What product category does this belong to?
+			model:'category',
+			required: true
+		},
+		boxGroup:{		// What group of boxes will this need to end up in?
+			model:'boxGroup',
+			required: true
 		},
 		description: {
 			type: 'string',
