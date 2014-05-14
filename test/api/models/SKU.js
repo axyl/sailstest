@@ -12,7 +12,7 @@ module.exports = {
 			type: 'string',
 			required: true
 		},
-		items: {
+		items: {		// Count of items?
 			type: 'INTEGER',
 			required: true
 		},
@@ -28,7 +28,7 @@ module.exports = {
 			type: 'string',
 			required: true
 		},
-		misc: 'STRING'
+		misc: 'STRING'	// Just text stuff....
 	}
 
 };
