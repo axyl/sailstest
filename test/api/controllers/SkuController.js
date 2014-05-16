@@ -60,27 +60,35 @@ module.exports = {
   
     /**
    * `SkuController.findPackingBox`
-   * @description :: Providing an SKU, gives back a box to put the item in, if there is one.  Otherwise says a new box is required.
+   * @description :: Providing an SKU, gives back a box to put the item in, if there is one.  Otherwise if an item SKU, says need a new box with box:none...If the SKU is for a box, then returns the box details.
    */
   findPackingBox: function (req, res) {
 	sails.log.info("Pack Item");
 	
 	SKU.findOne({SKU:req.param('sku')}).exec(function(err, sku_record) {
+		// TODO : Handle parameter checks - http://beta.sailsjs.org/#!documentation/reference/CustomResponses/CustomResponses.html
 		if (err) return res.send(err,500);	
 		if (!sku_record) {
-			// No SKU exists for that name.
-			return res.json({sku:'invalid'});
-		
+			// No SKU exists for that name - if it's a box instead, then return that data..as user might be trying to pack it.
+			sails.log.info('Not a product SKU, checking if box sku.');
+			Box.findOne({boxSKU:req.param('sku'),status:'packing'}).exec(function (err, boxRecord) {
+				if (boxRecord) {
+					sails.log.info('SKU is for a box...returning box.');
+					return res.json({box:boxRecord,sku:'box'});
+				} else {
+					return res.json({sku:'invalid'});
+				}
+			});
 		} else {
 			// Open Box?
 			Box.findOne({boxGroup:sku_record.boxGroup,status:'packing'}).exec(function (err, boxRecord) {
 				if (err) return res.send(err,500);
 				if (boxRecord) {
 					sails.log.info("Box in packing state, returning record.");
-					return res.json(boxRecord);	// return the boxRecord...
+					return res.json({box:boxRecord,sku:sku_record});	// return the boxRecord...
 				} else {
 					sails.log.info("No box currently in packing state.");
-					return res.json({box:'none'});	// No box that we're currently packing.
+					return res.json({box:'none',sku:sku_record});	// No box that we're currently packing.
 				};
 			});	// end of Box.findOne
 		};	// end of else !sku_record

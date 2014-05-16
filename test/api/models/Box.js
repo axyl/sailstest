@@ -12,16 +12,17 @@ module.exports = {
 		boxSKU: {	// What Bar Code does this box have?
 			type: 'STRING',
 			required: true
+			// TODO : Should be enforced unique...
 		},
 		status: {
 			type: 'STRING',
-			enum: ['packing','packed','empty','dispatched'],
+			enum: ['packing','packed','empty','dispatched','packedNotAllocated'],
 			defaultsTo: 'empty'
 		},
-		ItemCount: {	// How many items in the box?  Should default to 0
-			type: 'INTEGER',
-			required: true,
-			defaultsTo: 0
+		itemCount: function() {	// How many items in the box?  Should default to 0
+			Item.find({box:this.id}).exec(function(err, items) {
+				return items.length;
+			});
 		},
 		boxGroup: {		// Many boxes share the same group of contents....
 			model:'boxGroup',
