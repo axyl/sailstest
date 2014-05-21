@@ -1,18 +1,7 @@
 object MainForm: TMainForm
-  Left = 0
-  Top = 0
   Caption = 'MainForm'
-  ClientHeight = 502
-  ClientWidth = 675
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Tahoma'
-  Font.Style = []
-  OldCreateOrder = False
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 19
   object Button1: TButton
     Left = 16
     Top = 16
@@ -32,5 +21,14 @@ object MainForm: TMainForm
     EditLabel.Caption = 'Packer Name'
     TabOrder = 1
     Text = 'Craig'
+  end
+  object Button2: TButton
+    Left = 16
+    Top = 56
+    Width = 105
+    Height = 25
+    Caption = 'Manage Locations'
+    TabOrder = 2
+    OnClick = Button2Click
   end
 end

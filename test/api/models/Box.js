@@ -28,10 +28,9 @@ module.exports = {
 			model:'boxGroup',
 			required: true
 		},
-		location: {		// Where's this box located?
-			type: 'STRING',
-			required: true,
-			defaultsTo: 'stores'
+		location: {		// Where's this box located?  Some locations can handle multiple boxes...others can't.
+			model: 'location',
+			required: true
 		}
 	}
 
