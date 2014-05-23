@@ -81,7 +81,7 @@ module.exports = {
 			});
 		} else {
 			// Open Box?
-			Box.findOne({boxGroup:sku_record.boxGroup,status:'packing'}).exec(function (err, boxRecord) {
+			Box.findOne({boxGroup:sku_record.boxGroup,status:'packing'}).populate('location').exec(function (err, boxRecord) {
 				if (err) return res.send(err,500);
 				if (boxRecord) {
 					sails.log.info("Box in packing state, returning record.");

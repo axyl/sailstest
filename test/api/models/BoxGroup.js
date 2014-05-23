@@ -17,6 +17,10 @@ module.exports = {
 		SKUs: {			// What list of product SKU's/barcodes do we want in boxes that belong to this group?
 			collection: 'SKU',
 			via:'boxGroup'
+		},
+		boxes: {	// What boxes belong to this group?
+			collection: 'box',
+			via:'boxGroup'
 		}
 	}
 

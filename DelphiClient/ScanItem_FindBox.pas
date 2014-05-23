@@ -155,7 +155,7 @@ begin
 
         // Box details...
         mmoBoxDetails.Clear;
-        mmoBoxDetails.Lines.Add('Box Location: '+ jsonResponse['box.location'].AsString);
+        mmoBoxDetails.Lines.Add('Box Location: '+ jsonResponse['box.location.name'].AsString);
         mmoBoxDetails.Lines.Add('sku: '+ jsonResponse['box.boxSKU'].AsString);
       end;
     end;

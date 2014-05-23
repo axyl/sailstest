@@ -22,16 +22,18 @@ object ScanItem_NewBoxForm: TScanItem_NewBoxForm
     EditLabel.Height = 13
     EditLabel.Caption = 'Box SKU'
     TabOrder = 0
+    OnKeyPress = BoxSKUEdtKeyPress
   end
   object BoxLocationEdt: TLabeledEdit
     Left = 8
     Top = 64
     Width = 161
     Height = 21
-    EditLabel.Width = 61
+    EditLabel.Width = 83
     EditLabel.Height = 13
-    EditLabel.Caption = 'Box Location'
+    EditLabel.Caption = 'Box Location SKU'
     TabOrder = 1
+    OnKeyPress = BoxLocationEdtKeyPress
   end
   object boxGroupEdt: TLabeledEdit
     Left = 8
@@ -50,12 +52,11 @@ object ScanItem_NewBoxForm: TScanItem_NewBoxForm
     Width = 99
     Height = 25
     Caption = 'Define Box'
-    Default = True
     TabOrder = 3
     OnClick = SetupBoxBtnClick
   end
   object createBoxRes: TRESTRequest
-    Client = RESTClient1
+    Client = DataModule1.restClient1
     Params = <
       item
         Kind = pkURLSEGMENT
@@ -69,21 +70,25 @@ object ScanItem_NewBoxForm: TScanItem_NewBoxForm
       end
       item
         Kind = pkURLSEGMENT
-        name = 'location'
+        name = 'locationID'
         Options = [poAutoCreated]
       end>
     Resource = 
       'box/create?boxSKU={boxSKU}&status=packing&boxGroup={boxGroupID}&' +
-      'location={location}'
+      'location={locationID}'
     Left = 288
     Top = 144
   end
-  object RESTClient1: TRESTClient
-    Accept = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
-    BaseURL = 'http://localhost:1337'
-    Params = <>
-    HandleRedirects = True
-    Left = 384
+  object findLocationID: TRESTRequest
+    Client = DataModule1.restClient1
+    Params = <
+      item
+        Kind = pkURLSEGMENT
+        name = 'locationSKU'
+        Options = [poAutoCreated]
+      end>
+    Resource = 'location?locationSKU={locationSKU}'
+    Left = 376
     Top = 144
   end
 end

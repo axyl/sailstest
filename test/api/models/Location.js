@@ -22,7 +22,11 @@ module.exports = {
   		type: 'boolean',
   		required: true,
   		defaultsTo: false
-  	}
+  	},
+    boxes: {   // What boxes belong to this location?
+      collection: 'box',
+      via: 'location'
+    }
   }
 };
 

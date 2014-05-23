@@ -14,8 +14,10 @@ type
     boxGroupEdt: TLabeledEdit;
     SetupBoxBtn: TButton;
     createBoxRes: TRESTRequest;
-    RESTClient1: TRESTClient;
+    findLocationID: TRESTRequest;
     procedure SetupBoxBtnClick(Sender: TObject);
+    procedure BoxSKUEdtKeyPress(Sender: TObject; var Key: Char);
+    procedure BoxLocationEdtKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     boxGroupID: String;
@@ -32,16 +34,43 @@ implementation
 
 {$R *.dfm}
 
+uses DataModule;
+
 { TScanItem_NewBoxForm }
 
 // Get the location for the box...create it..
-procedure TScanItem_NewBoxForm.SetupBoxBtnClick(Sender: TObject);
+procedure TScanItem_NewBoxForm.BoxLocationEdtKeyPress(Sender: TObject;
+  var Key: Char);
 begin
-  createBoxRes.Params.ParameterByName('boxSKU').Value:= boxSKUEdt.Text;
-  createBoxRes.Params.ParameterByName('boxGroupID').Value:= boxGroupID;
-  createBoxRes.Params.ParameterByName('Location').Value:= boxLocationEdt.Text;
-  createBoxRes.Execute;
-  modalResult:= mrOK;
+  // If they press enter, then push that button.
+  if Key= #13 then
+    self.SetupBoxBtn.Click;
+end;
+
+procedure TScanItem_NewBoxForm.BoxSKUEdtKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  // If they press enter...move to the next box.
+  if Key= #13 then
+    self.ActiveControl:= BoxLocationEdt;
+
+end;
+
+procedure TScanItem_NewBoxForm.SetupBoxBtnClick(Sender: TObject);
+var
+  locationObj: ISuperObject;
+begin
+  // Find the Location ID first...
+  findLocationID.Params.ParameterByName('locationSKU').Value:= boxLocationEdt.Text;
+  if DataModule1.ExecuteRest(findLocationID, 'Validating Location SKU') then
+  begin
+    locationObj:= SO(findLocationID.Response.Content);
+    createBoxRes.Params.ParameterByName('boxSKU').Value:= boxSKUEdt.Text;
+    createBoxRes.Params.ParameterByName('boxGroupID').Value:= boxGroupID;
+    createBoxRes.Params.ParameterByName('LocationID').Value:= locationObj.AsArray[0].S['id'];
+    if DataModule1.ExecuteRest(createBoxRes, 'Creating new Box') then
+      modalResult:= mrOK;
+  end;
 end;
 
 function TScanItem_NewBoxForm.SetupNewBox(lastItemResp: ISuperObject): Boolean;

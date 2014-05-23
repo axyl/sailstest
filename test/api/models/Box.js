@@ -11,8 +11,8 @@ module.exports = {
 		// What's the SKU for the box.
 		boxSKU: {	// What Bar Code does this box have?
 			type: 'STRING',
-			required: true
-			// TODO : Should be enforced unique...
+			required: true,
+			unique: true
 		},
 		status: {
 			type: 'STRING',

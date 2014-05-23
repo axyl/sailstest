@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Base;
 
 type
-  TMainForm = class(TBaseForm)
+  TMainForm = class(TbaseForm)
     Button1: TButton;
     PackerName: TLabeledEdit;
     Button2: TButton;

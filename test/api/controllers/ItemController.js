@@ -33,8 +33,6 @@ module.exports = {
 			};
 		});	// end of box.findOne...
 	 
-	 
-	 
 	 }	// end of create function.
 };
 

@@ -8,7 +8,8 @@ uses
   superobject in 'ExternalUnits\superobjectv1.2.4\superobject.pas',
   Base in 'Base.pas' {baseForm},
   Location_Main in 'Location_Main.pas' {Location_MainForm},
-  DataModule in 'DataModule.pas' {DataModule1: TDataModule};
+  DataModule in 'DataModule.pas' {DataModule1: TDataModule},
+  Location_AddEdit in 'Location_AddEdit.pas' {Location_AddEditForm};
 
 {$R *.res}
 
@@ -21,5 +22,6 @@ begin
   Application.CreateForm(TbaseForm, baseForm);
   Application.CreateForm(TLocation_MainForm, Location_MainForm);
   Application.CreateForm(TDataModule1, DataModule1);
+  Application.CreateForm(TLocation_AddEditForm, Location_AddEditForm);
   Application.Run;
 end.

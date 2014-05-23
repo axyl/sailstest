@@ -31,6 +31,7 @@ inherited Location_MainForm: TLocation_MainForm
     Height = 25
     Caption = 'Add Location'
     TabOrder = 2
+    OnClick = AddLocationBtnClick
   end
   object EditLocationBtn: TButton
     Left = 310
@@ -39,6 +40,7 @@ inherited Location_MainForm: TLocation_MainForm
     Height = 25
     Caption = 'Edit Location'
     TabOrder = 3
+    OnClick = EditLocationBtnClick
   end
   object DeleteLocationBtn: TButton
     Left = 461
@@ -67,5 +69,58 @@ inherited Location_MainForm: TLocation_MainForm
     Resource = 'location/destroy/{id}'
     Left = 712
     Top = 8
+  end
+  object LocationsAdd: TRESTRequest
+    Client = DataModule1.restClient1
+    Params = <
+      item
+        Kind = pkURLSEGMENT
+        name = 'name'
+        Options = [poAutoCreated]
+      end
+      item
+        Kind = pkURLSEGMENT
+        name = 'locationSKU'
+        Options = [poAutoCreated]
+      end
+      item
+        Kind = pkURLSEGMENT
+        name = 'multipleBoxes'
+        Options = [poAutoCreated]
+      end>
+    Resource = 
+      'location/create?name={name}&locationSKU={locationSKU}&multipleBo' +
+      'xes={multipleBoxes}'
+    Left = 632
+    Top = 64
+  end
+  object LocationsEdit: TRESTRequest
+    Client = DataModule1.restClient1
+    Params = <
+      item
+        Kind = pkURLSEGMENT
+        name = 'id'
+        Options = [poAutoCreated]
+      end
+      item
+        Kind = pkURLSEGMENT
+        name = 'name'
+        Options = [poAutoCreated]
+      end
+      item
+        Kind = pkURLSEGMENT
+        name = 'locationSKU'
+        Options = [poAutoCreated]
+      end
+      item
+        Kind = pkURLSEGMENT
+        name = 'multipleBoxes'
+        Options = [poAutoCreated]
+      end>
+    Resource = 
+      'location/update/{id}?name={name}&locationSKU={locationSKU}&multi' +
+      'pleBoxes={multipleBoxes}'
+    Left = 712
+    Top = 64
   end
 end

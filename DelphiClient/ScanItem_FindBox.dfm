@@ -107,7 +107,7 @@ object ScanItem_FindBoxForm: TScanItem_FindBoxForm
     Top = 240
   end
   object RESTResponse1: TRESTResponse
-    Left = 176
+    Left = 200
     Top = 240
   end
   object boxItemReq: TRESTRequest
