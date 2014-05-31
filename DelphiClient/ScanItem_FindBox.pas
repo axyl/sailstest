@@ -11,7 +11,6 @@ type
   TScanItem_FindBoxForm = class(TForm)
     Label1: TLabel;
     ItemSKU: TEdit;
-    RESTClient1: TRESTClient;
     findPackingBoxReq: TRESTRequest;
     RESTResponse1: TRESTResponse;
     mmoItemDetails: TMemo;
@@ -120,7 +119,8 @@ begin
       MessageDlg('Scanned the wrong box! - Nothing saved...scan the right box!'+ #13#10+ 'This SKU is a box.', mtError, [mbOK], 0);
     end;
   end
-  else if (validBox= 'none') then
+  // If not a valid box, but we're already packing...then don't treat it as a new box.
+  else if ((validBox= 'none') and (boxGroupID= -1)) then
   begin
     // No open box...
     self.Color:= clAqua;
@@ -140,8 +140,8 @@ begin
   begin
     // Is there no open bow?
 
-    // Is this item for a different group of boxes???  If so, don't allow
-    if ((boxGroupID<> jsonResponse['box.boxGroup'].AsInteger) and (boxGroupID> -1)) then
+    // Is this item for a different group of boxes???  If so, don't allow  //was previously checking box.boxGroup
+    if ((boxGroupID<> jsonResponse['sku.boxGroup'].AsInteger) and (boxGroupID> -1)) then
     begin
       { TODO : Play a warning sound ??? }
       self.Color:= clRed;
@@ -168,7 +168,7 @@ begin
         mmoBoxDetails.Clear;
         mmoBoxDetails.Lines.Add('Box Location: '+ jsonResponse['box.location.name'].AsString);
         mmoBoxDetails.Lines.Add('sku: '+ jsonResponse['box.boxSKU'].AsString);
-        boxLocationLbl.Caption:= 'Box Location: '+ jsonResponse['box.location.name'].AsString);
+        boxLocationLbl.Caption:= 'Box Location: '+ jsonResponse['box.location.name'].AsString;
       end;
     end;
   end;
