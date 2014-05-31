@@ -11,6 +11,7 @@ object baseForm: TbaseForm
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnKeyPress = FormKeyPress
   PixelsPerInch = 96
   TextHeight = 19
 end

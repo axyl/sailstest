@@ -61,7 +61,7 @@ begin
   begin
     LocationsAdd.Params.ParameterByName('name').Value:= newLocationName;
     LocationsAdd.Params.ParameterByName('locationSKU').Value:= newLocationSKU;
-    LocationsAdd.Params.ParameterByName('multipleBoxes').Value:= BooltoStr(newLocationMultipleBoxes, True);
+    LocationsAdd.Params.ParameterByName('multipleBoxes').Value:= LowerCase(BooltoStr(newLocationMultipleBoxes, True));
     DataModule1.ExecuteRest(LocationsAdd, 'Adding Location');
     LoadLocationsBtn.Click;
   end;
@@ -106,7 +106,7 @@ begin
     begin
       LocationsEdit.Params.ParameterByName('name').Value:= newLocationName;
       LocationsEdit.Params.ParameterByName('locationSKU').Value:= newLocationSKU;
-      LocationsEdit.Params.ParameterByName('multipleBoxes').Value:= BooltoStr(newLocationMultipleBoxes, True);
+      LocationsEdit.Params.ParameterByName('multipleBoxes').Value:= LowerCase(BooltoStr(newLocationMultipleBoxes, True));
       LocationsEdit.Params.ParameterByName('id').Value:= InttoStr(TLocations(LocationsBox.Items.Objects[locationsBox.ItemIndex]).id);
 
       DataModule1.ExecuteRest(LocationsEdit, 'Editing Location');

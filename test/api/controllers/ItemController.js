@@ -22,6 +22,7 @@ module.exports = {
 		Box.findOne({boxSKU:req.param('boxSKU'),status:'packing'}).exec(function(err, box_record) {
 			if (box_record) {
 				sails.log.info("Box Exists, creating item record.");
+				// TODO : Change the box state to packing...check its current state for validation?
 				Item.create({sku:req.param('sku'),packedBy:req.param('packedBy'),box:box_record.id}).exec(function (err, item_record){
 					sails.log.info("Item recorded in box.");
 					return res.json(item_record);

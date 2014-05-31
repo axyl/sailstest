@@ -7,46 +7,58 @@ object ScanItem_FindBoxForm: TScanItem_FindBoxForm
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
+  Font.Height = -16
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
   OnShow = FormShow
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 19
   object Label1: TLabel
     Left = 8
     Top = 8
-    Width = 48
-    Height = 13
-    Caption = 'Scan Item'
+    Width = 268
+    Height = 19
+    Caption = 'Scan Item or Box (Once Boxed Items)'
   end
   object Label2: TLabel
     Left = 8
     Top = 54
-    Width = 101
-    Height = 13
+    Width = 149
+    Height = 19
     Caption = 'Scanned Item Details'
   end
   object Label3: TLabel
     Left = 199
     Top = 53
-    Width = 41
-    Height = 13
+    Width = 62
+    Height = 19
     Caption = 'Item List'
   end
   object Label4: TLabel
     Left = 390
     Top = 53
-    Width = 53
-    Height = 13
+    Width = 78
+    Height = 19
     Caption = 'Box Details'
+  end
+  object BoxLocationLbl: TLabel
+    Left = 8
+    Top = 231
+    Width = 6
+    Height = 23
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
   end
   object ItemSKU: TEdit
     Left = 8
     Top = 27
     Width = 185
-    Height = 21
+    Height = 27
     TabOrder = 0
     Text = '9400015744813'
   end
@@ -76,8 +88,8 @@ object ScanItem_FindBoxForm: TScanItem_FindBoxForm
   object ProcessScanBtn: TButton
     Left = 199
     Top = 25
-    Width = 210
-    Height = 25
+    Width = 290
+    Height = 29
     Caption = 'Process Scan  (Should be automatic)'
     Default = True
     TabOrder = 4

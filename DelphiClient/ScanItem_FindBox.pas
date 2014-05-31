@@ -22,6 +22,7 @@ type
     mmoBoxDetails: TMemo;
     boxItemReq: TRESTRequest;
     ProcessScanBtn: TButton;
+    BoxLocationLbl: TLabel;
     procedure FormShow(Sender: TObject);
     procedure ProcessScanBtnClick(Sender: TObject);
   private
@@ -42,7 +43,8 @@ implementation
 
 uses
   ScanItem_NewBox,
-  Main
+  Main,
+  MMSystem
 
   ;
 
@@ -88,6 +90,7 @@ begin
   if (skuValidCheck='invalid') then
   begin
     self.Color:= clRed;
+    PlaySound('SystemExclamation', 0, SND_ASYNC);
     MessageDlg('SKU does not exist!', mtError, [mbOK], 0);
   end
   else if (skuValidCheck='box') then
@@ -101,14 +104,19 @@ begin
       if boxItems(jsonResponse) then
       begin
         self.Color:= clGreen;
+        PlaySound('SYSTEMDEFAULT', 0, SND_ASYNC);
         self.Close;
       end
       else
+      begin
+        PlaySound('SystemExclamation', 0, SND_ASYNC);
         self.Color:= clRed;   // Probably already red...
+      end;
     end
     else
     begin
       self.Color:= clRed;
+      PlaySound('SystemExclamation', 0, SND_ASYNC);
       MessageDlg('Scanned the wrong box! - Nothing saved...scan the right box!'+ #13#10+ 'This SKU is a box.', mtError, [mbOK], 0);
     end;
   end
@@ -116,6 +124,7 @@ begin
   begin
     // No open box...
     self.Color:= clAqua;
+    PlaySound('SYSTEMQUESTION', 0, SND_ASYNC);
     if Scanitem_NewBoxForm.SetupNewBox(jsonResponse) then
     begin
       // Recursive... add it to the now existing box...
@@ -136,10 +145,12 @@ begin
     begin
       { TODO : Play a warning sound ??? }
       self.Color:= clRed;
+      PlaySound('SystemExclamation', 0, SND_ASYNC);
       MessageDlg('Item belongs to another boxGroup.  Unable to box with this batch.', mtError, [mbOK], 0);
     end
     else
     begin
+      PlaySound('SYSTEMDEFAULT', 0, SND_ASYNC);
       // List the Item in the list of items..
       mmoItemsList.Lines.Add(jsonResponse['sku.SKU'].AsString);
       // Specific item details.
@@ -157,6 +168,7 @@ begin
         mmoBoxDetails.Clear;
         mmoBoxDetails.Lines.Add('Box Location: '+ jsonResponse['box.location.name'].AsString);
         mmoBoxDetails.Lines.Add('sku: '+ jsonResponse['box.boxSKU'].AsString);
+        boxLocationLbl.Caption:= 'Box Location: '+ jsonResponse['box.location.name'].AsString);
       end;
     end;
   end;
@@ -167,6 +179,7 @@ begin
   mmoItemDetails.Lines.Clear;
   mmoItemsList.Lines.Clear;
   mmoBoxDetails.Lines.Clear;
+  boxLocationLbl.Caption:= '';
   self.FocusControl(itemSKU);
 
   // TODO : Reset the SKU edit box..
