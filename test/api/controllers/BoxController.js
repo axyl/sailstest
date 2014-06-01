@@ -72,5 +72,17 @@ module.exports = {
 		});  // end of Box.findOne
 
 	 
-	 }	// end of create function.	
+	 },	// end of move function.	
+
+	 /** BoxController.list`
+	 * @description :: Gives back the list of boxes for generating a CSV...
+	 */
+	 list: function(req, res) {
+	 	// TODO : Error checking? 
+	 	Box.find({}).populate('location').populate('boxGroup').populate('items').exec(function listItems(err, Boxes){
+	 		res.type('text/csv');
+	 		res.set('Content-Disposition','inline; filename="boxes.csv"');
+	 		return res.view({layout: "csv", boxes: Boxes}, 'box/list');
+	 	});
+	 }  // end of list function.	 
 };

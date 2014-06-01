@@ -19,10 +19,9 @@ module.exports = {
 			enum: ['packing','packed','empty','dispatched','packedNotAllocated'],
 			defaultsTo: 'empty'
 		},
-		itemCount: function() {	// How many items in the box?  Should default to 0
-			Item.find({box:this.id}).exec(function(err, items) {
-				return items.length;
-			});
+		items: {
+			collection: 'item',
+			via: 'box'
 		},
 		boxGroup: {		// Many boxes share the same group of contents....
 			model:'boxGroup',

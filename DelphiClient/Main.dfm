@@ -11,25 +11,27 @@ object MainForm: TMainForm
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = True
+  OnClose = FormClose
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object Button1: TButton
+  object ScanItemsBtn: TButton
     Left = 11
-    Top = 11
+    Top = 7
     Width = 110
-    Height = 46
+    Height = 44
     Margins.Left = 2
     Margins.Top = 2
     Margins.Right = 2
     Margins.Bottom = 2
-    Caption = 'Scan Item Mode'
+    Caption = 'Scan/Pack Items'
     TabOrder = 0
-    OnClick = Button1Click
+    OnClick = ScanItemsBtnClick
   end
   object PackerName: TLabeledEdit
-    Left = 367
-    Top = 19
-    Width = 83
+    Left = 328
+    Top = 18
+    Width = 138
     Height = 21
     Margins.Left = 2
     Margins.Top = 2
@@ -45,9 +47,9 @@ object MainForm: TMainForm
     TabOrder = 1
     Text = 'Craig'
   end
-  object Button2: TButton
+  object ManageLocationsBtn: TButton
     Left = 11
-    Top = 61
+    Top = 103
     Width = 110
     Height = 44
     Margins.Left = 2
@@ -56,6 +58,39 @@ object MainForm: TMainForm
     Margins.Bottom = 2
     Caption = 'Manage Locations'
     TabOrder = 2
-    OnClick = Button2Click
+    OnClick = ManageLocationsBtnClick
+  end
+  object PackBoxBtn: TButton
+    Left = 11
+    Top = 55
+    Width = 110
+    Height = 44
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Pack Box/Move Box'
+    TabOrder = 3
+    OnClick = PackBoxBtnClick
+  end
+  object serverNameEdt: TLabeledEdit
+    Left = 328
+    Top = 66
+    Width = 138
+    Height = 21
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    EditLabel.Width = 74
+    EditLabel.Height = 13
+    EditLabel.Margins.Left = 2
+    EditLabel.Margins.Top = 2
+    EditLabel.Margins.Right = 2
+    EditLabel.Margins.Bottom = 2
+    EditLabel.Caption = 'Server Address'
+    TabOrder = 4
+    Text = 'http://localhost:1337'
+    OnChange = serverNameEdtChange
   end
 end

@@ -8,11 +8,17 @@ uses
 
 type
   TMainForm = class(TbaseForm)
-    Button1: TButton;
+    ScanItemsBtn: TButton;
     PackerName: TLabeledEdit;
-    Button2: TButton;
-    procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
+    ManageLocationsBtn: TButton;
+    PackBoxBtn: TButton;
+    serverNameEdt: TLabeledEdit;
+    procedure ScanItemsBtnClick(Sender: TObject);
+    procedure ManageLocationsBtnClick(Sender: TObject);
+    procedure PackBoxBtnClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure serverNameEdtChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -26,14 +32,63 @@ implementation
 
 {$R *.dfm}
 
-uses ScanItem_FindBox, Location_Main;
+uses ScanItem_FindBox, Location_Main, Box_Move, System.IniFiles, DataModule;
 
-procedure TMainForm.Button1Click(Sender: TObject);
+procedure TMainForm.PackBoxBtnClick(Sender: TObject);
+begin
+  inherited;
+  Box_MoveForm.ShowModal;
+end;
+
+procedure TMainForm.ScanItemsBtnClick(Sender: TObject);
 begin
   ScanItem_FindBoxForm.ShowModal;
 end;
 
-procedure TMainForm.Button2Click(Sender: TObject);
+procedure TMainForm.serverNameEdtChange(Sender: TObject);
+begin
+  inherited;
+  // TODO : Currently running every single time a text change is made...but meh.
+  if Assigned(DataModule1.restClient1) then
+    DataModule1.restClient1.BaseURL:= serverNameEdt.Text;
+
+end;
+
+procedure TMainForm.FormClose(Sender: TObject; var Action: TCloseAction);
+var
+  iniSettings: TIniFile;
+begin
+  inherited;
+  iniSettings:= TIniFile.Create(ChangeFileExt(Application.ExeName, '.ini'));
+  try
+    iniSettings.WriteString('server', 'serverURL', serverNameEdt.text);
+    iniSettings.WriteString('user', 'packerName', packerName.Text);
+  finally
+    freeandNil(iniSettings);
+  end;
+end;
+
+procedure TMainForm.FormCreate(Sender: TObject);
+var
+  iniSettings: TIniFile;
+begin
+  inherited;
+  iniSettings:= TIniFile.Create(ChangeFileExt(Application.ExeName, '.ini'));
+  try
+    if iniSettings.ValueExists('server', 'serverURL') then
+      serverNameEdt.Text:= iniSettings.ReadString('server','serverURL', serverNameEdt.Text)
+    else
+      iniSettings.WriteString('server', 'serverURL', serverNameEdt.text);
+    if iniSettings.ValueExists('user','packerName') then
+      packerName.Text:= iniSettings.ReadString('user', 'packerName', packerName.Text)
+    else
+      iniSettings.WriteString('user', 'packerName', packerName.Text);
+  finally
+    freeandNil(iniSettings);
+  end;
+end;
+
+procedure TMainForm.ManageLocationsBtnClick(Sender: TObject);
 begin
   inherited;
   Location_MainForm.ShowModal;

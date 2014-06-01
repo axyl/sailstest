@@ -1,0 +1,7 @@
+<div>
+	<ul>
+		<% _.each(items, function (item) { %>
+			<li><%= item.sku %>,<%= item.box.boxSKU %>,<%= item.box.location.name %></li>
+		<% }) %>
+	</ul>
+</div>

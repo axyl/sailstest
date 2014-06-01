@@ -9,7 +9,8 @@ uses
   Base in 'Base.pas' {baseForm},
   Location_Main in 'Location_Main.pas' {Location_MainForm},
   DataModule in 'DataModule.pas' {DataModule1: TDataModule},
-  Location_AddEdit in 'Location_AddEdit.pas' {Location_AddEditForm};
+  Location_AddEdit in 'Location_AddEdit.pas' {Location_AddEditForm},
+  Box_Move in 'Box_Move.pas' {Box_MoveForm};
 
 {$R *.res}
 
@@ -23,5 +24,6 @@ begin
   Application.CreateForm(TLocation_MainForm, Location_MainForm);
   Application.CreateForm(TDataModule1, DataModule1);
   Application.CreateForm(TLocation_AddEditForm, Location_AddEditForm);
+  Application.CreateForm(TBox_MoveForm, Box_MoveForm);
   Application.Run;
 end.

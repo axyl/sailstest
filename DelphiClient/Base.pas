@@ -8,7 +8,7 @@ uses
 
 type
   TbaseForm = class(TForm)
-    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure ControlBoxKeyPressEnterCheck(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -22,7 +22,7 @@ implementation
 
 {$R *.dfm}
 
-procedure TbaseForm.FormKeyPress(Sender: TObject; var Key: Char);
+procedure TbaseForm.ControlBoxKeyPressEnterCheck(Sender: TObject; var Key: Char);
 begin
   // If the user presses enter (Barcode scanners do this) then this moves the selection to the next edit box.
    If Key = #13 Then Begin

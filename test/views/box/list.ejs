@@ -1,0 +1,2 @@
+BoxSKU,BoxLocation,LocationSKU,BoxItemCount,BoxGroupID,BoxStatus
+<% _.each(boxes, function (box) { %><%= box.boxSKU %>,<%= box.location.name %>,<%= box.location.locationSKU %>,<%= box.items.length %>,<%= box.boxGroup.groupID %>,<%= box.status %><% }) %>
