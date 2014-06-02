@@ -67,7 +67,6 @@ object ScanItem_FindBoxForm: TScanItem_FindBoxForm
     Width = 420
     Height = 27
     TabOrder = 0
-    Text = '9400015744813'
   end
   object mmoItemDetails: TMemo
     Left = 8

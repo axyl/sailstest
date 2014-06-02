@@ -13,12 +13,14 @@ type
     ManageLocationsBtn: TButton;
     PackBoxBtn: TButton;
     serverNameEdt: TLabeledEdit;
+    btnGetBoxCSVFile: TButton;
     procedure ScanItemsBtnClick(Sender: TObject);
     procedure ManageLocationsBtnClick(Sender: TObject);
     procedure PackBoxBtnClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure serverNameEdtChange(Sender: TObject);
+    procedure btnGetBoxCSVFileClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -32,7 +34,7 @@ implementation
 
 {$R *.dfm}
 
-uses ScanItem_FindBox, Location_Main, Box_Move, System.IniFiles, DataModule;
+uses ScanItem_FindBox, Location_Main, Box_Move, System.IniFiles, DataModule, WinAPI.ShellAPI;
 
 procedure TMainForm.PackBoxBtnClick(Sender: TObject);
 begin
@@ -49,9 +51,15 @@ procedure TMainForm.serverNameEdtChange(Sender: TObject);
 begin
   inherited;
   // TODO : Currently running every single time a text change is made...but meh.
-  if Assigned(DataModule1.restClient1) then
+  if Assigned(DataModule1) and assigned(DataModule1.restClient1) then
     DataModule1.restClient1.BaseURL:= serverNameEdt.Text;
 
+end;
+
+procedure TMainForm.btnGetBoxCSVFileClick(Sender: TObject);
+begin
+  inherited;
+  ShellExecute(0, 'OPEN', pChar(DataModule1.restClient1.BaseURL+ '/box/list'), '', '', SW_SHOWNORMAL);
 end;
 
 procedure TMainForm.FormClose(Sender: TObject; var Action: TCloseAction);

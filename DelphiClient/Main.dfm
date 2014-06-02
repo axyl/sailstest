@@ -93,4 +93,17 @@ object MainForm: TMainForm
     Text = 'http://localhost:1337'
     OnChange = serverNameEdtChange
   end
+  object btnGetBoxCSVFile: TButton
+    Left = 11
+    Top = 151
+    Width = 110
+    Height = 44
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Get Box CSV File'
+    TabOrder = 5
+    OnClick = btnGetBoxCSVFileClick
+  end
 end

@@ -104,7 +104,8 @@ begin
       begin
         self.Color:= clGreen;
         PlaySound('SYSTEMDEFAULT', 0, SND_ASYNC);
-        self.Close;
+        // Reset form.
+        self.FormShow(self);
       end
       else
       begin
@@ -183,7 +184,7 @@ begin
   self.FocusControl(itemSKU);
 
   // TODO : Reset the SKU edit box..
-  itemSKU.Text:= '9400015102910';
+  itemSKU.Text:= '';
   boxGroupID:= -1;
   self.color:= clBtnFace;   // reset to default.
 end;
@@ -194,8 +195,8 @@ begin
   begin
     findPackingBox;
     self.ActiveControl:= itemSKU;
+    ItemSKU.Text:= '';
   end;
-
 end;
 
 end.
