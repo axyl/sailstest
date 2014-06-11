@@ -102,7 +102,7 @@ module.exports = {
 	 			validBoxes.push(Boxes.pop().box.id);
 	 		}
 	 		// Now do a find across the boxes.
-	 		Box.find({id:validBoxes}).populate('location').exec(function yeah(err, validBoxes){
+	 		Box.find({id:validBoxes}).populate('location').populate('items').exec(function yeah(err, validBoxes){
 	 			return res.json(validBoxes);
 
 	 		});
