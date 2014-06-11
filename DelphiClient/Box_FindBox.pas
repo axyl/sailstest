@@ -86,6 +86,8 @@ begin
   if not justGrid then
     itemSKUFindEdt.Text:= '';
 
+  self.SelectFirst;
+
   for gridCols:= 0 to BoxesList.ColCount- 1 do
   begin
     BoxesList.Cols[gridCols].Clear;

@@ -2,7 +2,7 @@ object MainForm: TMainForm
   Left = 0
   Top = 0
   Caption = 'MainForm'
-  ClientHeight = 279
+  ClientHeight = 349
   ClientWidth = 487
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -95,7 +95,7 @@ object MainForm: TMainForm
   end
   object btnGetBoxCSVFile: TButton
     Left = 11
-    Top = 151
+    Top = 247
     Width = 110
     Height = 44
     Margins.Left = 2
@@ -105,5 +105,31 @@ object MainForm: TMainForm
     Caption = 'Get Box CSV File'
     TabOrder = 5
     OnClick = btnGetBoxCSVFileClick
+  end
+  object SearchBoxesBtn: TButton
+    Left = 11
+    Top = 151
+    Width = 110
+    Height = 44
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Search Boxes'
+    TabOrder = 6
+    OnClick = SearchBoxesBtnClick
+  end
+  object DeleteItemBtn: TButton
+    Left = 11
+    Top = 199
+    Width = 110
+    Height = 44
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Delete Item from Box'
+    TabOrder = 7
+    OnClick = DeleteItemBtnClick
   end
 end

@@ -14,6 +14,8 @@ type
     PackBoxBtn: TButton;
     serverNameEdt: TLabeledEdit;
     btnGetBoxCSVFile: TButton;
+    SearchBoxesBtn: TButton;
+    DeleteItemBtn: TButton;
     procedure ScanItemsBtnClick(Sender: TObject);
     procedure ManageLocationsBtnClick(Sender: TObject);
     procedure PackBoxBtnClick(Sender: TObject);
@@ -21,6 +23,8 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure serverNameEdtChange(Sender: TObject);
     procedure btnGetBoxCSVFileClick(Sender: TObject);
+    procedure SearchBoxesBtnClick(Sender: TObject);
+    procedure DeleteItemBtnClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -34,7 +38,8 @@ implementation
 
 {$R *.dfm}
 
-uses ScanItem_FindBox, Location_Main, Box_Move, System.IniFiles, DataModule, WinAPI.ShellAPI;
+uses ScanItem_FindBox, Location_Main, Box_Move, System.IniFiles, DataModule, WinAPI.ShellAPI,
+  Box_FindBox, ScanItem_DeleteFromBox;
 
 procedure TMainForm.PackBoxBtnClick(Sender: TObject);
 begin
@@ -45,6 +50,12 @@ end;
 procedure TMainForm.ScanItemsBtnClick(Sender: TObject);
 begin
   ScanItem_FindBoxForm.ShowModal;
+end;
+
+procedure TMainForm.SearchBoxesBtnClick(Sender: TObject);
+begin
+  inherited;
+  Box_FindBoxForm.ShowModal;
 end;
 
 procedure TMainForm.serverNameEdtChange(Sender: TObject);
@@ -60,6 +71,12 @@ procedure TMainForm.btnGetBoxCSVFileClick(Sender: TObject);
 begin
   inherited;
   ShellExecute(0, 'OPEN', pChar(DataModule1.restClient1.BaseURL+ '/box/list'), '', '', SW_SHOWNORMAL);
+end;
+
+procedure TMainForm.DeleteItemBtnClick(Sender: TObject);
+begin
+  inherited;
+  ScanItem_DeleteFromBoxForm.ShowModal;
 end;
 
 procedure TMainForm.FormClose(Sender: TObject; var Action: TCloseAction);

@@ -10,7 +10,9 @@ uses
   Location_Main in 'Location_Main.pas' {Location_MainForm},
   DataModule in 'DataModule.pas' {DataModule1: TDataModule},
   Location_AddEdit in 'Location_AddEdit.pas' {Location_AddEditForm},
-  Box_Move in 'Box_Move.pas' {Box_MoveForm};
+  Box_Move in 'Box_Move.pas' {Box_MoveForm},
+  Box_FindBox in 'Box_FindBox.pas' {Box_FindBoxForm},
+  ScanItem_DeleteFromBox in 'ScanItem_DeleteFromBox.pas' {ScanItem_DeleteFromBoxForm};
 
 {$R *.res}
 
@@ -25,5 +27,7 @@ begin
   Application.CreateForm(TDataModule1, DataModule1);
   Application.CreateForm(TLocation_AddEditForm, Location_AddEditForm);
   Application.CreateForm(TBox_MoveForm, Box_MoveForm);
+  Application.CreateForm(TBox_FindBoxForm, Box_FindBoxForm);
+  Application.CreateForm(TScanItem_DeleteFromBoxForm, ScanItem_DeleteFromBoxForm);
   Application.Run;
 end.
