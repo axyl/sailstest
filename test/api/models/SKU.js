@@ -10,7 +10,8 @@ module.exports = {
 	attributes: {
 		SKU: {
 			type: 'string',
-			required: true
+			required: true,
+			unique: true
 		},
 		items: {		// Count of items?
 			type: 'INTEGER',

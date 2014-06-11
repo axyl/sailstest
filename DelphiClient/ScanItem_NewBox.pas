@@ -77,6 +77,9 @@ function TScanItem_NewBoxForm.SetupNewBox(lastItemResp: ISuperObject): Boolean;
 begin
   boxGroupID:= lastItemResp['sku.boxGroup'].AsString;
   boxGroupEdt.Text:= lastItemResp['sku.boxGroup'].AsString;
+  boxLocationEdt.Text:= '';
+  boxSKUEdt.Text:= '';
+  self.ActiveControl:= boxSKUEdt;
   if ShowModal= mrOK then
     result:= True
   else

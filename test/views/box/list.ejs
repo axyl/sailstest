@@ -1,3 +1,8 @@
 BoxSKU,BoxLocation,LocationSKU,BoxItemCount,BoxGroupID,BoxStatus
-<% _.each(boxes, function (box) { %><%= box.boxSKU %>,<%= box.location.name %>,<%= box.location.locationSKU %>,<%= box.items.length %>,<%= box.boxGroup.groupID %>,<%= box.status %><%= '\r\n' %>
-<% }) %>
+<% _.each(boxes, function (box) { 
+	if (box.items.length== 0) {
+		%>="<%= box.boxSKU %>",<%= box.location.name %>,="<%= box.location.locationSKU %>",<%= box.items.length %>,="",<%= box.status %><%= '\r\n' %><%
+	} else {
+ 		%>="<%= box.boxSKU %>",<%= box.location.name %>,="<%= box.location.locationSKU %>",<%= box.items.length %>,="<%= box.items[0].sku %>",<%= box.status %><%= '\r\n' %><%
+ 	}
+}) %>

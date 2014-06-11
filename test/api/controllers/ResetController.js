@@ -18,6 +18,39 @@ module.exports = {
     });
   },
 
+  /**
+   * `ResetController.clearAllButLocationsAndSKUs()`
+   * @description :: Removes all local data, except for Location and SKU Information.
+   */
+  clearBoxItems: function (req, res) {
+    sails.log.warn("Deleting all boxes and their items.");
+    
+    Item.count({}).exec(function(err, records){
+      if (records> 0) {
+        sails.log.info("Deleting "+ records+ " Items.");
+        Item.destroy({}).exec(function(err) {
+          if (err) {
+            return console.log(err);
+          }
+        });  
+      }
+    });
+
+    Box.count({}).exec(function(err, records){
+      if (records> 0) {
+        sails.log.info("Deleting Box "+ records+ " records.");
+        Box.destroy({}).exec(function(err) {
+          if (err) {
+            return console.log(err);
+          }
+        });
+      }
+    });
+
+    return res.json({
+      clearBoxItems: 'done'
+    });
+  },
 
   /**
    * `ResetController.clearAllButLocations()`

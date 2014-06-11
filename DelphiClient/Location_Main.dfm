@@ -51,6 +51,15 @@ inherited Location_MainForm: TLocation_MainForm
     TabOrder = 4
     OnClick = DeleteLocationBtnClick
   end
+  object ImportLocationsBtn: TButton
+    Left = 612
+    Top = 8
+    Width = 145
+    Height = 25
+    Caption = 'Import Locations'
+    TabOrder = 5
+    OnClick = ImportLocationsBtnClick
+  end
   object LocationsGet: TRESTRequest
     Client = DataModule1.restClient1
     Params = <>
@@ -122,5 +131,12 @@ inherited Location_MainForm: TLocation_MainForm
       'pleBoxes={multipleBoxes}'
     Left = 712
     Top = 64
+  end
+  object openCSVDialog: TOpenTextFileDialog
+    DefaultExt = 'csv'
+    Filter = 'CSV File|*.csv'
+    Options = [ofHideReadOnly, ofFileMustExist, ofEnableSizing]
+    Left = 632
+    Top = 128
   end
 end

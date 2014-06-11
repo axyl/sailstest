@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Base, Data.Bind.Components,
-  Data.Bind.ObjectScope, REST.Client, Vcl.StdCtrls;
+  Data.Bind.ObjectScope, REST.Client, Vcl.StdCtrls, Vcl.ExtDlgs;
 
 type
   TLocations= class(TObject)
@@ -25,10 +25,13 @@ type
     LocationsDelete: TRESTRequest;
     LocationsAdd: TRESTRequest;
     LocationsEdit: TRESTRequest;
+    ImportLocationsBtn: TButton;
+    openCSVDialog: TOpenTextFileDialog;
     procedure LoadLocationsBtnClick(Sender: TObject);
     procedure DeleteLocationBtnClick(Sender: TObject);
     procedure AddLocationBtnClick(Sender: TObject);
     procedure EditLocationBtnClick(Sender: TObject);
+    procedure ImportLocationsBtnClick(Sender: TObject);
   private
     { Private declarations }
     function clearLocations: Boolean;
@@ -116,6 +119,62 @@ begin
   else
   begin
     MessageDlg('No Location selected to edit.', mtError, [mbOK], 0);
+  end;
+end;
+
+procedure TLocation_MainForm.ImportLocationsBtnClick(Sender: TObject);
+var
+  importFile: TextFile;
+  fileLine, LocationName, LocationSKU: String;
+  firstLineImport, locationMultiples: Boolean;
+begin
+  inherited;
+  firstLineIMport:= true;
+  if openCSVDialog.Execute then
+  begin
+    if MessageDlg('First Line will be ignored.', mtWarning, [mbOk, mbCancel], 0)= mrOk then
+    begin
+      AssignFile(importFile, openCSVDialog.FileName);
+      reset(importFile);
+      try
+        // Skip the first line.
+        readln(importFile, fileLine);
+        while not Eof(importFile) do
+        begin
+          readln(importFile, fileLine);
+          LocationName:= copy(fileLine, 1, pos(',', fileLIne)- 1);
+          delete(fileLine, 1, pos(',', fileLine));
+          LocationSKU:= copy(fileLine, 1, pos(',', fileLIne)- 1);
+          delete(fileLine, 1, pos(',', fileLine));
+          // fileLIne equal 1 because of original format htat Tom set up.....he had quantity.
+          if (fileLine= '1') or (fileLine= 'false') or (fileLine= '0') or (fileLine= 'no') then
+            locationMultiples:= False
+          else
+            locationMultiples:= True;
+
+          if firstLineImport then
+          begin
+            if MessageDlg('Before continuing, verify that the following is correct for the first line of the file.'+ #13#10#13#10+
+              'Location Name: '+ Locationname+ #13#10+
+              'Location SKU: '+ LocationSku+ #13#10+
+              'Multiples Allows: '+ BooltoStr(locationMultiples, true), mtConfirmation, [mbYes, mbNo], 0)= mrNo then
+              exit;
+            firstLineImport:= False;
+          end;
+
+          LocationsAdd.Params.ParameterByName('name').Value:= Locationname;
+          LocationsAdd.Params.ParameterByName('locationSKU').Value:= LocationSku;
+          LocationsAdd.Params.ParameterByName('multipleBoxes').Value:= LowerCase(BooltoStr(locationMultiples, True));
+          screen.Cursor:= crHourGlass;
+          DataModule1.ExecuteRest(LocationsAdd, 'Adding Location');
+          screen.Cursor:= crDefault;
+
+        end;
+
+      finally
+        CloseFile(importFile);
+      end;
+    end;
   end;
 end;
 
