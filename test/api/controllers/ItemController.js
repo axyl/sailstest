@@ -34,16 +34,6 @@ module.exports = {
 			};
 		});	// end of box.findOne...
 	 
-	 },	// end of create function.
-
-	 /** ItemController.list`
-	 * @description :: Gives back the list of Items for generating a CSV...
-	 */
-	 list: function(req, res) {
-	 	// TODO : Error checking? 
-	 	Item.find({}).populate('box').exec(function listItems(err, Items){
-	 		return res.view('item/list', {items: Items});
-	 	});
-	 }  // end of list function.
+	 }	// end of create function.
 };
 

@@ -84,5 +84,32 @@ module.exports = {
 	 		res.set('Content-Disposition','inline; filename="boxes.csv"');
 	 		return res.view({layout: "csv", boxes: Boxes}, 'box/list');
 	 	});
-	 }  // end of list function.	 
+	 },  // end of list function.	 
+
+	 /** BoxController.findItemSKU `
+	 * @description :: Returns all boxes and their locations that contain the Item SKU provided.
+	 */
+	 findItemSKU: function(req, res) {
+	 	// Must provide an itemSKU...
+	 	if (!req.param('ItemSKU')) {
+	 		res.badRequest('Sorry, need to provide ItemSKU to find.');
+	 	};
+
+	 	Item.find({sku:req.param('ItemSKU')}).populate('box').exec(function boxesList(err, Boxes){
+	 		var validBoxes= []; 
+	 		// Create a list of boxes...
+	 		while (Boxes.length) {
+	 			validBoxes.push(Boxes.pop().box.id);
+	 		}
+	 		// Now do a find across the boxes.
+	 		Box.find({id:validBoxes}).populate('location').exec(function yeah(err, validBoxes){
+	 			return res.json(validBoxes);
+
+	 		});
+
+	 	});
+
+	}
+
+
 };
