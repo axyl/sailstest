@@ -64,6 +64,7 @@ module.exports = {
 						foundItem= true;
 						Item.destroy({id:box_record.items.pop().id}).exec(function (err) {
 							sails.log.info("Item record deleted.");
+							// TODO : Boxes with no items?
 							return res.json({item:"deleted"});
 						});
 						break;
