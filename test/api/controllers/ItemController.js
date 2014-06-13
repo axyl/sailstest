@@ -58,7 +58,7 @@ module.exports = {
 				// Now find an item from it that matches the Item SKU?
 				while (box_record.items.length) {
 					sails.log.info("Looping box Items... "+ box_record.items.pop().sku);
-					if (box_record.items.pop().sku== req.param('itemSKU')) {
+					if (box_record.items.pop().sku.toUpperCase()=== req.param('itemSKU').toUpperCase()) {
 						// found a matching item...
 						sails.log.info("Found matching item...");
 						foundItem= true;
