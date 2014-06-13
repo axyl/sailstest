@@ -4,7 +4,7 @@ interface
 
 uses
   System.SysUtils, System.Classes, IPPeerClient, Data.Bind.Components,
-  Data.Bind.ObjectScope, REST.Client, Dialogs;
+  Data.Bind.ObjectScope, REST.Client, Dialogs, VCL.Forms;
 
 type
   TDataModule1 = class(TDataModule)
@@ -15,6 +15,9 @@ type
   public
     { Public declarations }
     function ExecuteRest(restObj: TRESTRequest; ErrorTitle: String): Boolean;
+    function CapsLockCheck: Boolean;
+    procedure applicationIsNowIdle(Sender: TObject; var Done: Boolean);
+
   end;
 
 var
@@ -24,16 +27,34 @@ implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
-uses Main;
+uses Main,
+  Winapi.Windows;
 
 {$R *.dfm}
 
 { TDataModule1 }
 
+procedure TDataModule1.applicationIsNowIdle(Sender: TObject; var Done: Boolean);
+begin
+  // Runs when an application starts being idle...  (Not continously)
+
+  CapsLockCheck;
+end;
+
+function TDataModule1.CapsLockCheck: Boolean;
+begin
+  if getKeyState(VK_CAPITAL)> 0 then
+  begin
+    MessageDlg('Turn off the CAPS LOCK Key.', mtError, [mbOK], 0);
+  end;
+end;
+
 procedure TDataModule1.DataModuleCreate(Sender: TObject);
 begin
   // This should run after the main form's created and read in the server setting.
   restClient1.BaseURL:= MainForm.serverNameEdt.Text;
+  // When app is idle...check for caps lock.
+  Application.OnIdle:= ApplicationIsNowIdle;
 end;
 
 function TDataModule1.ExecuteRest(restObj: TRESTRequest;

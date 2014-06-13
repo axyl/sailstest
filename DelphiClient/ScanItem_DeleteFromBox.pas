@@ -58,6 +58,7 @@ begin
   inherited;
   self.SelectFirst;
 
+  self.Color:= clBtnFace;
   DeleteItemBtn.Default:= False;
   itemSKUEdt.Text:= '';
   BoxSKUEdt.Text:= '';
