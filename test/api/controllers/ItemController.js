@@ -38,7 +38,8 @@ module.exports = {
 
 	/**
 	 * `ItemController.destroy`
-	 * @description :: Overrides the existing destroy.  Requires an Item SKU and a Box SKU to remove the item from.
+	 * @description :: Overrides the existing destroy.  Requires an Item SKU and a Box SKU to remove the item from.  Item record
+	 will no longer exist...
 	 */
 	 destroy: function (req, res) {
 		// Must provide a boxSKU...
@@ -57,18 +58,26 @@ module.exports = {
 				var foundItem= false;
 				// Now find an item from it that matches the Item SKU?
 				while (box_record.items.length) {
-					sails.log.info("Looping box Items... "+ box_record.items.pop().sku);
-					if (box_record.items.pop().sku.toUpperCase()=== req.param('itemSKU').toUpperCase()) {
+					var itemRec= box_record.items.pop();
+					
+					sails.log.info("Looping box Items... "+ itemRec.sku);
+					if (itemRec.sku.toUpperCase()=== req.param('itemSKU').toUpperCase()) {
 						// found a matching item...
-						sails.log.info("Found matching item...");
+						sails.log.info("Found matching item id: "+itemRec.id);
 						foundItem= true;
-						Item.destroy({id:box_record.items.pop().id}).exec(function (err) {
-							sails.log.info("Item record deleted.");
-							// TODO : Boxes with no items?
+						Item.destroy({id:itemRec.id}).exec(function (err) {
+							sails.log.info("Item record deleted with items remaining.."+ box_record.items.length);
+							// If no items left in box, then change it's state.
+							if (box_record.items.length== 0) {
+								sails.log.info("Switching box status to empty.");
+								box_record.status= "empty";
+								box_record.save();
+							};	// End of box_record.items.length = zero
 							return res.json({item:"deleted"});
 						});
 						break;
 					};
+					sails.log.info("End of Loop.");
 				};
 
 				// Find an item?
