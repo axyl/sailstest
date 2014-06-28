@@ -30,6 +30,10 @@ module.exports = {
 		location: {		// Where's this box located?  Some locations can handle multiple boxes...others can't.
 			model: 'location',
 			required: true
+		},
+		sortJob: { 	// What sort Job do we belong to?
+			model: 'sortJob',
+			required: true
 		}
 	}
 

@@ -11,7 +11,7 @@ module.exports = {
 		SKU: {
 			type: 'string',
 			required: true,
-			unique: true
+			unique: true		// TODO : What about unique handling across this and the sort Job?
 		},
 		items: {		// Count of items?
 			type: 'INTEGER',
@@ -27,6 +27,10 @@ module.exports = {
 		},
 		description: {
 			type: 'string',
+			required: true
+		},
+		sortJob: {		// What sort Job does this SKU belong to?
+			model: 'sortJob',
 			required: true
 		},
 		misc: 'STRING'	// Just text stuff....

@@ -18,6 +18,10 @@ module.exports = {
 		box: {	// What box is this in?
 			model:'box',
 			required: true
+		},
+		sortJob: { // Which Sort Job does this belong to?
+			model: 'sortJob',
+			required: true
 		}
 	}
 };

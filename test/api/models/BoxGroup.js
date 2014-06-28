@@ -21,6 +21,10 @@ module.exports = {
 		boxes: {	// What boxes belong to this group?
 			collection: 'box',
 			via:'boxGroup'
+		},
+		sortJob: { 	// What sort Job do we belong to?
+			model: 'sortJob',
+			required: true
 		}
 	}
 

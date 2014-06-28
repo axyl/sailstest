@@ -78,8 +78,12 @@ module.exports = {
 	 * @description :: Gives back the list of boxes for generating a CSV...
 	 */
 	 list: function(req, res) {
+	 	// Must provide a SortJob.
+	 	if (!req.param('sortJob')) {
+	 		return res.badRequest('Need to provide a sortJob to fetch a list for.');
+	 	};
 	 	// TODO : Error checking? 
-	 	Box.find({}).populate('location').populate('boxGroup').populate('items').exec(function listItems(err, Boxes){
+	 	Box.find({sortJob:req.param('sortJob')}).populate('location').populate('boxGroup').populate('items').exec(function listItems(err, Boxes){
 	 		res.type('text/csv');
 	 		res.set('Content-Disposition','inline; filename="boxes.csv"');
 	 		return res.view({layout: "csv", boxes: Boxes}, 'box/list');
@@ -92,7 +96,7 @@ module.exports = {
 	 findItemSKU: function(req, res) {
 	 	// Must provide an itemSKU...
 	 	if (!req.param('ItemSKU')) {
-	 		res.badRequest('Sorry, need to provide ItemSKU to find.');
+	 		return res.badRequest('Sorry, need to provide ItemSKU to find.');
 	 	};
 
 	 	Item.find({sku:req.param('ItemSKU')}).populate('box').exec(function boxesList(err, Boxes){
@@ -102,7 +106,7 @@ module.exports = {
 	 			validBoxes.push(Boxes.pop().box.id);
 	 		}
 	 		// Now do a find across the boxes.
-	 		Box.find({id:validBoxes}).populate('location').populate('items').exec(function yeah(err, validBoxes){
+	 		Box.find({id:validBoxes}).populate('location').populate('items').populate('sortJob').exec(function yeah(err, validBoxes){
 	 			return res.json(validBoxes);
 
 	 		});

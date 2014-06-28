@@ -14,16 +14,41 @@ module.exports = {
 
   create: function (req, res) {
 	sails.log.info("Create SKU - looking for category");
+	// Validate Fields
+	if (!req.param('category')) {
+		return res.badRequest('Sorry, need to provide category');
+	};
+	if (!req.param('boxgroup')) {
+		return res.badRequest('Sorry, need to provide an boxgroup');
+	}; 
+	if (!req.param('sku')) {
+		return res.badRequest('Sorry, need to provide sku');
+	};
+	if (!req.param('quantity')) {
+		return res.badRequest('Sorry, need to provide quantity');
+	};
+	if (!req.param('description')) {
+		return res.badRequest('Sorry, need to provide description');
+	};
+	if (!req.param('misc')) {
+		return res.badRequest('Sorry, need to provide misc');
+	};
+	if (!req.param('sortJob')) {
+		return res.badRequest('Sorry, need to provide sortJob');
+	};
+
+	// TODO validate that the sortJob exists...
+
 	// Create or Find the Category....
 	Category.findOrCreate({name:req.param('category')},{name:req.param('category')}).exec(function (err, record) {
 		if (err) return res.send(err,500);
 		
 		// and the SKU entry?
 		sails.log.info("Found Category ("+ record.id+ ") - now SKU.");
-		SKU.findOne({SKU:req.param('sku')}).exec(function(err, sku_record) {
+		SKU.findOne({SKU:req.param('sku'),sortJob:req.param('sortJob')}).exec(function(err, sku_record) {
 			if (err) return res.send(err,500);
 			// BoxGroup?
-			BoxGroup.findOrCreate({groupID:req.param('boxgroup')},{groupID:req.param('boxgroup')}).exec(function (err, boxGroupRecord) {
+			BoxGroup.findOrCreate({groupID:req.param('boxgroup'),sortJob:req.param('sortJob')},{groupID:req.param('boxgroup'),sortJob:req.param('sortJob')}).exec(function (err, boxGroupRecord) {
 				if (err) return res.send(err, 500);
 				sails.log.info("BoxGroup sorted with "+ boxGroupRecord.id);
 			
@@ -39,7 +64,7 @@ module.exports = {
 				} else {
 					sails.log.info("Creating new SKU");
 					SKU.create({SKU:req.param('sku'),items:req.param('quantity'),
-					  category:record.id,boxGroup:boxGroupRecord.id,description:req.param('description'),misc:req.param('misc')}).exec(function (err, sku_record) {
+					  category:record.id,boxGroup:boxGroupRecord.id,description:req.param('description'),misc:req.param('misc'),sortJob:req.param('sortJob')}).exec(function (err, sku_record) {
 						if (err) return res.send(err, 500);
 						sails.log.info("Created new SKU with ID "+ sku_record.id);
 						return res.json({id:sku_record.id});
@@ -64,14 +89,21 @@ module.exports = {
    */
   findPackingBox: function (req, res) {
 	sails.log.info("Pack Item");
+	if (!req.param('sku')) {
+		return res.badRequest('Sorry, need to provide sku');
+	};
+	if (!req.param('sortJob')) {
+		return res.badRequest('Sorry, need to provide sortJob');
+	};
+
 	
-	SKU.findOne({SKU:req.param('sku')}).exec(function(err, sku_record) {
+	SKU.findOne({SKU:req.param('sku'),sortJob:req.param('sortJob')}).exec(function(err, sku_record) {
 		// TODO : Handle parameter checks - http://beta.sailsjs.org/#!documentation/reference/CustomResponses/CustomResponses.html
 		if (err) return res.send(err,500);	
 		if (!sku_record) {
 			// No SKU exists for that name - if it's a box instead, then return that data..as user might be trying to pack it.
 			sails.log.info('Not a product SKU, checking if box sku.');
-			Box.findOne({boxSKU:req.param('sku'),status:'packing'}).exec(function (err, boxRecord) {
+			Box.findOne({boxSKU:req.param('sku'),status:'packing',sortJob:req.param('sortJob')}).exec(function (err, boxRecord) {
 				if (boxRecord) {
 					sails.log.info('SKU is for a box...returning box.');
 					return res.json({box:boxRecord,sku:'box'});
@@ -81,7 +113,7 @@ module.exports = {
 			});
 		} else {
 			// Open Box?
-			Box.findOne({boxGroup:sku_record.boxGroup,status:'packing'}).populate('location').exec(function (err, boxRecord) {
+			Box.findOne({boxGroup:sku_record.boxGroup,status:'packing',sortJob:req.param('sortJob')}).populate('location').exec(function (err, boxRecord) {
 				if (err) return res.send(err,500);
 				if (boxRecord) {
 					sails.log.info("Box in packing state, returning record.");

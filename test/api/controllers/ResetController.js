@@ -98,7 +98,17 @@ module.exports = {
       if (err) {
         return console.log(err);
       }
-    });;
+    });
+
+    sails.log.info("Deleting Jobs.");
+    SortJob.destroy({}).exec(function(err) {
+      if (err) {
+        return console.log(err);
+      }
+    });
+
+
+    
     sails.log.info("All removed - except locations.");
 
     return res.json({
