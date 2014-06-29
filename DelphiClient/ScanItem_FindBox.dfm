@@ -112,15 +112,20 @@ object ScanItem_FindBoxForm: TScanItem_FindBoxForm
         Kind = pkURLSEGMENT
         name = 'itemSKU'
         Options = [poAutoCreated]
+      end
+      item
+        Kind = pkURLSEGMENT
+        name = 'sortJob'
+        Options = [poAutoCreated]
       end>
-    Resource = 'Sku/findPackingBox?sku={itemSKU}'
+    Resource = 'Sku/findPackingBox?sku={itemSKU}&sortJob={sortJob}'
     Response = RESTResponse1
-    Left = 96
-    Top = 240
+    Left = 104
+    Top = 224
   end
   object RESTResponse1: TRESTResponse
     Left = 200
-    Top = 240
+    Top = 224
   end
   object boxItemReq: TRESTRequest
     Client = DataModule1.restClient1
@@ -139,10 +144,17 @@ object ScanItem_FindBoxForm: TScanItem_FindBoxForm
         Kind = pkURLSEGMENT
         name = 'sku'
         Options = [poAutoCreated]
+      end
+      item
+        Kind = pkURLSEGMENT
+        name = 'sortJob'
+        Options = [poAutoCreated]
       end>
-    Resource = 'Item/create?sku={sku}&boxSKU={boxSKU}&packedBy={packedBy}'
+    Resource = 
+      'Item/create?sku={sku}&boxSKU={boxSKU}&packedBy={packedBy}&sortJo' +
+      'b={sortJob}'
     Response = RESTResponse1
     Left = 288
-    Top = 240
+    Top = 224
   end
 end

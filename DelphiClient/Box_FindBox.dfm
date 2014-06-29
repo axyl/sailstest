@@ -19,7 +19,6 @@ inherited Box_FindBoxForm: TBox_FindBoxForm
     EditLabel.Caption = 'Enter Item SKU to search boxes for...'
     TabOrder = 0
     OnKeyPress = ControlBoxKeyPressEnterCheck
-    ExplicitWidth = 505
   end
   object FindItemSKUBtn: TButton
     Left = 475

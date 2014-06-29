@@ -52,6 +52,7 @@ begin
       BoxesList.Cells[1, boxes+ 1]:= jsonResponse.AsArray[boxes].S['boxSKU'];
       BoxesList.Cells[2, boxes+ 1]:= InttoStr(jsonResponse.AsArray[boxes].A['items'].Length);
       BoxesList.Cells[3, boxes+ 1]:= jsonResponse.AsArray[boxes].S['status'];
+      BoxesList.Cells[4, boxes+ 1]:= jsonREsponse.AsArray[boxes].S['sortJob.name'];
     end;
   end;
 end;
@@ -63,7 +64,7 @@ var
 begin
   inherited;
   // Resize the Grid Columns.
-  defColWidth:= Trunc(BoxesList.ClientWidth/ 6);
+  defColWidth:= Trunc(BoxesList.ClientWidth/ 7);
   for gridCols := 0 to BoxesList.ColCount- 1 do
   begin
     if gridCols= 0 then
@@ -94,11 +95,12 @@ begin
   end;
   BoxesList.RowCount:= 2;
   BoxesList.FixedRows:= 1;
-  BoxesList.ColCount:= 4;
+  BoxesList.ColCount:= 5;
   BoxesList.Cells[0, 0]:= 'Location';
   BoxesList.Cells[1, 0]:= 'Box SKU';
   BoxesList.Cells[2, 0]:= 'Item Count';
   BoxesList.Cells[3, 0]:= 'Box Status';
+  BoxesList.Cells[4, 0]:= 'Sort Job';
 end;
 
 end.

@@ -56,6 +56,7 @@ begin
   // These two are consistent...
   boxItemReq.Params.ParameterByName('boxSKU').Value:= lastItemResp['box.boxSKU'].AsString;
   boxItemReq.Params.ParameterByName('packedBy').Value:= MainForm.PackerName.Text;
+  boxItemReq.Params.ParameterByName('sortJob').Value:= InttoStr(MainForm.currentSortingJobID);
 
   while mmoItemsList.Lines.Count> 0 do
   begin
@@ -82,6 +83,7 @@ var
 begin
   self.color:= clBtnFace;   // reset to default.
   findPackingBoxReq.Params.ParameterByName('itemSKU').Value:= itemSKU.Text;
+  findPackingBoxReq.Params.ParameterByName('sortJob').Value:= InttoStr(mainform.currentSortingJobID);
   findPackingBoxReq.Execute;
   jsonResponse:= SO(RestResponse1.Content);
   RESTREsponse1.GetSimpleValue('sku', skuValidCheck);
@@ -139,7 +141,7 @@ begin
   end
   else
   begin
-    // Is there no open bow?
+    // Is there no open box?
 
     // Is this item for a different group of boxes???  If so, don't allow  //was previously checking box.boxGroup
     if ((boxGroupID<> jsonResponse['sku.boxGroup'].AsInteger) and (boxGroupID> -1)) then

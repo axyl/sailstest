@@ -9,6 +9,7 @@ uses
 type
   TDataModule1 = class(TDataModule)
     restClient1: TRESTClient;
+    getSortJobID: TRESTRequest;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
@@ -17,7 +18,7 @@ type
     function ExecuteRest(restObj: TRESTRequest; ErrorTitle: String): Boolean;
     function CapsLockCheck: Boolean;
     procedure applicationIsNowIdle(Sender: TObject; var Done: Boolean);
-
+    function findJobsSortID(JobName: String): Integer;
   end;
 
 var
@@ -28,7 +29,8 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 uses Main,
-  Winapi.Windows;
+  Winapi.Windows,
+  superobject;
 
 {$R *.dfm}
 
@@ -68,6 +70,30 @@ begin
     Result:= false;
     MessageDlg('Error with '+ errorTitle+ #13#10#13#10+ 'Reported Error: '+ restObj.Response.ErrorMessage+ #13#10+ 'Status Text: '+ restObj.Response.StatusText+ #13#10+ 'Response Content: '+ restObj.Response.Content, mtError, [mbOK], 0);
   end;
+
+end;
+
+function TDataModule1.findJobsSortID(JobName: String): Integer;
+var
+  jsonResponse: ISuperObject;
+begin
+  result:= -1;
+  // Gets the Job ID for the name provided.
+  getSortJobID.Params.ParameterByName('jobName').Value:= jobName;
+  if (self.ExecuteRest(getSortJobID, 'Finding Sort Job ID')) then
+  begin
+    jsonResponse:= SO(getSortJobID.Response.Content);
+    // Is there a result that matches?
+    if jsonResponse.AsArray.Length< 1 then
+    begin
+      MessageDlg('Sort Job Name has no match in the database.  Unable to continue.', mtError, [mbOK], 0);
+      exit;
+    end;
+    // Return the right value.
+    result:= jsonResponse.AsArray[0].I['id'];
+  end
+  else
+    result:= -1;
 
 end;
 

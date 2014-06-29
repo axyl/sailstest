@@ -11,4 +11,16 @@ object DataModule1: TDataModule1
     Left = 24
     Top = 24
   end
+  object getSortJobID: TRESTRequest
+    Client = restClient1
+    Params = <
+      item
+        Kind = pkURLSEGMENT
+        name = 'jobName'
+        Options = [poAutoCreated]
+      end>
+    Resource = 'sortJob/?name={jobName}'
+    Left = 24
+    Top = 88
+  end
 end

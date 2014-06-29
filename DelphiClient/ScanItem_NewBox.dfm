@@ -72,10 +72,15 @@ object ScanItem_NewBoxForm: TScanItem_NewBoxForm
         Kind = pkURLSEGMENT
         name = 'locationID'
         Options = [poAutoCreated]
+      end
+      item
+        Kind = pkURLSEGMENT
+        name = 'sortJob'
+        Options = [poAutoCreated]
       end>
     Resource = 
       'box/create?boxSKU={boxSKU}&status=packing&boxGroup={boxGroupID}&' +
-      'location={locationID}'
+      'location={locationID}&sortJob={sortJob}'
     Left = 288
     Top = 144
   end

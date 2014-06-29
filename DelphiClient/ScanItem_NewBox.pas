@@ -34,7 +34,7 @@ implementation
 
 {$R *.dfm}
 
-uses DataModule;
+uses DataModule, Main;
 
 { TScanItem_NewBoxForm }
 
@@ -68,6 +68,7 @@ begin
     createBoxRes.Params.ParameterByName('boxSKU').Value:= boxSKUEdt.Text;
     createBoxRes.Params.ParameterByName('boxGroupID').Value:= boxGroupID;
     createBoxRes.Params.ParameterByName('LocationID').Value:= locationObj.AsArray[0].S['id'];
+    createBoxRes.Params.ParameterByName('sortJob').Value:= InttoStr(mainForm.currentSortingJobID);
     if DataModule1.ExecuteRest(createBoxRes, 'Creating new Box') then
       modalResult:= mrOK;
   end;

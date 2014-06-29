@@ -15,6 +15,13 @@ object MainForm: TMainForm
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
+  object Label1: TLabel
+    Left = 328
+    Top = 92
+    Width = 54
+    Height = 13
+    Caption = 'Sorting Job'
+  end
   object ScanItemsBtn: TButton
     Left = 11
     Top = 7
@@ -131,5 +138,21 @@ object MainForm: TMainForm
     Caption = 'Delete Item from Box'
     TabOrder = 7
     OnClick = DeleteItemBtnClick
+  end
+  object cmbCurrentSortingJob: TComboBox
+    Left = 328
+    Top = 111
+    Width = 138
+    Height = 21
+    TabOrder = 8
+    OnDropDown = cmbCurrentSortingJobDropDown
+    OnSelect = cmbCurrentSortingJobSelect
+  end
+  object getSortingJobs: TRESTRequest
+    Client = DataModule1.restClient1
+    Params = <>
+    Resource = 'sortJob'
+    Left = 360
+    Top = 208
   end
 end
