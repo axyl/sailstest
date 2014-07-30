@@ -12,7 +12,8 @@ uses
   Location_AddEdit in 'Location_AddEdit.pas' {Location_AddEditForm},
   Box_Move in 'Box_Move.pas' {Box_MoveForm},
   Box_FindBox in 'Box_FindBox.pas' {Box_FindBoxForm},
-  ScanItem_DeleteFromBox in 'ScanItem_DeleteFromBox.pas' {ScanItem_DeleteFromBoxForm};
+  ScanItem_DeleteFromBox in 'ScanItem_DeleteFromBox.pas' {ScanItem_DeleteFromBoxForm},
+  ScanItem_AddToBox in 'ScanItem_AddToBox.pas' {ScanItem_AddToBoxForm};
 
 {$R *.res}
 
@@ -29,5 +30,6 @@ begin
   Application.CreateForm(TBox_MoveForm, Box_MoveForm);
   Application.CreateForm(TBox_FindBoxForm, Box_FindBoxForm);
   Application.CreateForm(TScanItem_DeleteFromBoxForm, ScanItem_DeleteFromBoxForm);
+  Application.CreateForm(TScanItem_AddToBoxForm, ScanItem_AddToBoxForm);
   Application.Run;
 end.

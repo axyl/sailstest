@@ -20,6 +20,7 @@ type
     Label1: TLabel;
     cmbCurrentSortingJob: TComboBox;
     getSortingJobs: TRESTRequest;
+    addItemsBtn: TButton;
     procedure ScanItemsBtnClick(Sender: TObject);
     procedure ManageLocationsBtnClick(Sender: TObject);
     procedure PackBoxBtnClick(Sender: TObject);
@@ -31,6 +32,7 @@ type
     procedure DeleteItemBtnClick(Sender: TObject);
     procedure cmbCurrentSortingJobDropDown(Sender: TObject);
     procedure cmbCurrentSortingJobSelect(Sender: TObject);
+    procedure addItemsBtnClick(Sender: TObject);
   private
     function sortingJobSet: Boolean;
     { Private declarations }
@@ -47,7 +49,7 @@ implementation
 {$R *.dfm}
 
 uses ScanItem_FindBox, Location_Main, Box_Move, System.IniFiles, DataModule, WinAPI.ShellAPI,
-  Box_FindBox, ScanItem_DeleteFromBox, SuperObject;
+  Box_FindBox, ScanItem_DeleteFromBox, SuperObject, ScanItem_AddToBox;
 
 function TMainForm.sortingJobSet: Boolean;
 begin
@@ -92,6 +94,13 @@ begin
   if Assigned(DataModule1) and assigned(DataModule1.restClient1) then
     DataModule1.restClient1.BaseURL:= serverNameEdt.Text;
 
+end;
+
+procedure TMainForm.addItemsBtnClick(Sender: TObject);
+begin
+  inherited;
+  if sortingJobSet then
+    ScanItem_AddToBoxForm.ShowModal;
 end;
 
 procedure TMainForm.btnGetBoxCSVFileClick(Sender: TObject);

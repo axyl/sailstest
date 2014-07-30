@@ -148,6 +148,19 @@ object MainForm: TMainForm
     OnDropDown = cmbCurrentSortingJobDropDown
     OnSelect = cmbCurrentSortingJobSelect
   end
+  object addItemsBtn: TButton
+    Left = 125
+    Top = 199
+    Width = 110
+    Height = 44
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Add Items to Box'
+    TabOrder = 9
+    OnClick = addItemsBtnClick
+  end
   object getSortingJobs: TRESTRequest
     Client = DataModule1.restClient1
     Params = <>

@@ -10,8 +10,8 @@ module.exports = {
 	attributes: {
 		SKU: {
 			type: 'string',
-			required: true,
-			unique: true		// TODO : What about unique handling across this and the sort Job?
+			required: true
+			// unique: true		// TODO : What about unique handling across this and the sort Job?
 		},
 		items: {		// Count of items?
 			type: 'INTEGER',
@@ -32,6 +32,7 @@ module.exports = {
 		sortJob: {		// What sort Job does this SKU belong to?
 			model: 'sortJob',
 			required: true
+			// unique: true		/// Can't do a composite key with this and SKU....
 		},
 		misc: 'STRING'	// Just text stuff....
 	}

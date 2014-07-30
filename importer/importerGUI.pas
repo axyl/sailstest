@@ -29,10 +29,12 @@ implementation
 procedure TForm1.Button1Click(Sender: TObject);
 var
   importFile: TextFile;
-  fileLine, sku, category, quantity, description, groupid, misc: String;
+  fileLine, sku, category, quantity, description, groupid, misc, sortJob: String;
   values: TStringList;
+  firstLine: Boolean;
 begin
-  AssignFile(importFile, 'ImportSampleData.csv');
+  firstLine:= True;
+  AssignFile(importFile, 'ImportData.csv');
   reset(importFile);
   try
     values:= TStringList.Create;
@@ -57,7 +59,11 @@ begin
       groupID:= copy(fileLine, 1, pos(',', fileLine)- 1);
       delete(fileLine, 1, pos(',', fileLine));
 
-      misc:= fileLine;
+      misc:= copy(fileLine, 1, pos(',', fileLine)- 1);
+      delete(fileLine, 1, pos(',', fileLine));
+
+      sortJob:= fileLine;
+
 
       values.Clear;
       values.Add('sku='+ sku);
@@ -66,6 +72,12 @@ begin
       values.Add('description='+ description);
       values.Add('boxgroup='+ groupID);
       values.Add('misc='+ misc);
+      values.Add('sortJob='+ sortJob);
+
+      if (firstLine) and (messageDlg('Does this look right for the first line?'+ #13#10+ values.CommaText, mtConfirmation, [mbYes, mbNO], 0)= mrNo) then
+        exit;
+
+      firstLine:= False;
 
       try
         idHttp1.Post('http://localhost:1337/sku/create?', values);
@@ -84,6 +96,7 @@ begin
   finally
     closeFile(importFile);
   end;
+  ShowMessage('Done import.');
 end;
 
 end.

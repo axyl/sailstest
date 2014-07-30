@@ -24,7 +24,9 @@ type
 
   public
     { Public declarations }
-    function SetupNewBox(lastItemResp: ISuperObject): Boolean;
+    newBoxID: Integer;
+    function SetupNewBox(lastItemResp: ISuperObject): Boolean; overload;
+    function SetupNewBox(boxGroupID: string): Boolean; overload;
   end;
 
 var
@@ -58,7 +60,7 @@ end;
 
 procedure TScanItem_NewBoxForm.SetupBoxBtnClick(Sender: TObject);
 var
-  locationObj: ISuperObject;
+  locationObj, boxObj: ISuperObject;
 begin
   // Find the Location ID first...
   findLocationID.Params.ParameterByName('locationSKU').Value:= boxLocationEdt.Text;
@@ -70,22 +72,32 @@ begin
     createBoxRes.Params.ParameterByName('LocationID').Value:= locationObj.AsArray[0].S['id'];
     createBoxRes.Params.ParameterByName('sortJob').Value:= InttoStr(mainForm.currentSortingJobID);
     if DataModule1.ExecuteRest(createBoxRes, 'Creating new Box') then
+    begin
+      boxObj:= SO(createBoxRes.Response.Content);
+      // store the new box ID created, if we need it.
+      newBoxID:= boxObj.I['id'];
       modalResult:= mrOK;
+    end;
   end;
 end;
 
-function TScanItem_NewBoxForm.SetupNewBox(lastItemResp: ISuperObject): Boolean;
+function TScanItem_NewBoxForm.SetupNewBox(boxGroupID: string): Boolean;
 begin
-  boxGroupID:= lastItemResp['sku.boxGroup'].AsString;
-  boxGroupEdt.Text:= lastItemResp['sku.boxGroup'].AsString;
+  self.boxGroupID:= boxGroupID;
+  boxGroupEdt.Text:= boxGroupID;
   boxLocationEdt.Text:= '';
   boxSKUEdt.Text:= '';
+  newBoxID:= -1;
   self.ActiveControl:= boxSKUEdt;
   if ShowModal= mrOK then
     result:= True
   else
     Result:= false;
+end;
 
+function TScanItem_NewBoxForm.SetupNewBox(lastItemResp: ISuperObject): Boolean;
+begin
+  result:= setupNewBox(lastItemResp['sku.boxGroup'].AsString);
 end;
 
 end.
